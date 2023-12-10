@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signing Up</title>
+    <style>
+          body{
+            background: #7ccadd;
+          }
+         .signup {
+          display:flex ;
+          background-color: aqua;
+          align-items: center;
+          justify-content: center;
+          height: auto;
+          margin: 40px 400px 0px 400px;
+        }
+        .form{
+          margin: 7px;
+        }
+        .butt{
+          margin: 10px;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="signup">
+      <div class="forms">
+      <h1>SIGN UP TO BMS</h1>
+        <div class="form">
+          <form action="/" method="post">
+          <label for="firstname">First Name:</label>
+          <input type="text" id="firstname" autocomplete="off" name="firstname" required>
+        </div>
+        <div class="form">
+          <form action="/" method="post">       
+          <label for="lastname">Last Name:</label>
+          <input type="text" id="lastname" autocomplete="off" name="lastname" required>
+        </div>
+        <div class="form">
+          <form action="/" method="post">       
+          <label for="email">Email:</label>
+          <input type="text" id="email" autocomplete="off" name="email" required>
+        </div>
+        <div class="form">
+          <form action="/" method="post">       
+          <label for="setpassword">Set Password:</label>
+          <input type="text" id="setpassword" autocomplete="off" name="setpassword" required>
+        </div>
+        <div class="form">
+          <form action="/" method="post">       
+          <label for="confirmpassword">Confirm Password:</label>
+          <input type="text" id="confirmpassword" autocomplete="off" name="confirmpassword" required>
+        </div>
+        </br>
+        <button class="butt" type="submit">Sign Up</button>
+        </div>
+    </div>
+</html>

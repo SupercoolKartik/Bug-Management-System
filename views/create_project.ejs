@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        body{
+          background: #7ccadd;
+        }
+        .login {
+          display:flex ;
+          background-color: aqua;
+          align-items: center;
+          justify-content: center;
+          margin: 40px 400px 0px 400px;
+        }
+        .form{
+          margin: 3px;
+        }
+        .butt{
+          margin: 10px;
+        }
+
+    </style>
+  </head>
+  <body>
+    <div class="login">
+      <div class="forms">
+        <h1>Create a new Project</h1>
+        <div class="form">
+          <form action="/" method="post">
+          <label for="name">Project Name:</label>
+          <input type="text" id="proj_name" autocomplete="off" name="proj_name" required>
+            
+        </div>
+        <br>
+        <p>Selected Employees</p>
+        <br>
+        <label for="emp">Select Employees:</label>
+        <select id="emp" name="employees">
+        <!-- Options within the dropdown -->
+        <option value="Emp 1">Volvo</option>
+        <option value="Emp 2">Saab</option>
+        <option value="Emp 3">Mercedes</option>
+        <option value="Emp 4">Audi</option>
+        </select>
+        <br>
+        <button class="proj_name" type="submit">Create Project</button>
+        </div>
+        
+
+  <!-- The select element defines the dropdown -->
+  
+        <br>
+      </div>
+        
+    </div>
+  </body>
+</html>

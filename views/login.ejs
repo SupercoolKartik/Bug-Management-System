@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        body{
+          background: #7ccadd;
+        }
+        .login {
+          display:flex ;
+          background-color: aqua;
+          align-items: center;
+          justify-content: center;
+          margin: 40px 400px 0px 400px;
+        }
+        .form{
+          margin: 3px;
+        }
+        .butt{
+          margin: 10px;
+        }
+
+    </style>
+  </head>
+  <body>
+    <div class="login">
+      <div class="forms">
+        <h1>LOGIN TO BMS</h1>
+        <div class="form">
+          <form action="/" method="post">
+          <label for="name">Username:</label>
+          <input type="text" id="name" autocomplete="off" name="name" required>
+        </div>
+        <br>
+        <div class="form">
+          <form action="/" method="post">       
+          <label for="password">Password:</label>
+          <input type="text" id="password" autocomplete="off" name="password" required>
+        <br>
+        </div>
+        <button class="butt" type="submit">Login</button>
+        <p>Don't have an account? <a href="./signup">Sign Up</a></p>
+
+        <p><%=name%></p>
+        <br>
+      </div>
+        
+    </div>
+  </body>
+</html>

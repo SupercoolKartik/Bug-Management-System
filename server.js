@@ -1,12 +1,18 @@
-const express = require("express");
-const path = require("path");
-const ejs = require("ejs");
+import express from "express";
+//import ejs from "ejs";
+
+import { fileURLToPath } from "url";
+import { join, dirname } from "path";
+
 const app = express();
-const bodyParser = require("body-parser");
 
 const port = process.env.PORT || 3000;
-app.use(express.static(path.join(__dirname, "public")));
-app.use(bodyParser.urlencoded({ extended: true }));
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+app.use(express.static(join(__dirname, "public")));
+app.use(express.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
 

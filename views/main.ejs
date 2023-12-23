@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body,
+      h1,
+      p,
+      ul,
+      li {
+        background-color: aquamarine;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Apply styles to the main container */
+      .main {
+        display: flex;
+        flex-direction: column; /* Align items vertically */
+        align-items: center; /* Center items horizontally */
+        gap: 20px; /* Add some spacing between each button */
+        padding: 20px; /* Add padding for better aesthetics */
+      }
+
+      /* Apply styles to the buttons */
+      .main button {
+        width: 1000px;
+        height: 150px;
+        padding: 10px 20px; /* Add padding to make the buttons larger */
+        font-size: 16px; /* Increase font size for better visibility */
+        background-color: #3498db; /* Set a background color */
+        color: #fff; /* Set text color to white */
+        border: none; /* Remove default button border */
+        border-radius: 5px; /* Add a slight border-radius for rounded corners */
+        cursor: pointer; /* Change cursor to pointer for better UX */
+      }
+
+      /* Hover effect for buttons */
+      .main button:hover {
+        background-color: #2980b9; /* Change background color on hover */
+      }
+      a {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main">
+      <h1>BUG MANAGEMENT SYSTEM</h1>
+      <div class="projects">
+        <button><a href="/projects">My Projects</a></button>
+      </div>
+      <div class="tickets">
+        <button><a href="">Tickets</a></button>
+      </div>
+      <div class="users">
+        <button><a href="">Employees</a></button>
+      </div>
+    </div>
+  </body>
+</html>

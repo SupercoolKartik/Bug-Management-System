@@ -10,24 +10,6 @@ const pool = mysql.createPool({
   multipleStatements: true,
 });
 
-//Queries
-const databaseName = "database01";
-const createDatabaseQuery = `CREATE DATABASE IF NOT EXISTS ${databaseName}`;
-const useDatabaseQuery = `USE ${databaseName}`;
-const createTableQuery = `
-  CREATE TABLE IF NOT EXISTS users01 (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL
-  )
-`;
-// const insertDataQuery = `
-//   INSERT INTO users (id, username, email) VALUES (8, "kartik123", "kartik123@gmail.com")
-// `;
-// const selectDataQuery = `SELECT * FROM users`;
-
-//............
-console.log("start 0.1");
 const executeQuery = async (connection, query) => {
   try {
     const [results] = await connection.query(query);
@@ -36,54 +18,88 @@ const executeQuery = async (connection, query) => {
     throw error;
   }
 };
-console.log("end 0.1");
+
+//----------------------------------Queries---------------------------------------
+
+const createDatabaseQuery = `CREATE DATABASE IF NOT EXISTS database01`;
+const useDatabaseQuery = `USE database01`;
+
+const createUsersTableQuery = `
+  CREATE TABLE IF NOT EXISTS users (
+    uId VARCHAR(255) PRIMARY KEY COLLATE utf8mb4_bin,
+    fName VARCHAR(255) NOT NULL,
+    lName VARCHAR(255) NULL,
+    uEmail VARCHAR(255) NOT NULL,
+    uPhone VARCHAR(20) NOT NULL,
+    uPassword VARCHAR(255) NOT NULL
+  )`;
+const createProjectsTableQuery = `
+  CREATE TABLE IF NOT EXISTS projects(
+    pId INT PRIMARY KEY COLLATE utf8mb4_bin,
+    uId VARCHAR(255) NOT NULL COLLATE utf8mb4_bin,
+    pName VARCHAR(255) NOT NULL,
+    pKey VARCHAR(255) NOT NULL,
+    FOREIGN KEY (uId) REFERENCES users(uId)
+  )
+`;
+const createTicketsTableQuery = `
+  CREATE TABLE IF NOT EXISTS tickets(
+    tId INT PRIMARY KEY COLLATE utf8mb4_bin,
+    pId INT COLLATE utf8mb4_bin,
+    uIdCb VARCHAR(255) COLLATE utf8mb4_bin,
+    uIdCf VARCHAR(255) COLLATE utf8mb4_bin,
+    tKey VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NULL,
+    FOREIGN KEY (pId) REFERENCES projects(pId),
+    FOREIGN KEY (uIdCb) REFERENCES users(uId),
+    FOREIGN KEY (uIdCf) REFERENCES users(uId) 
+  )
+`;
+const createUsersProjectsTableQuery = `
+  CREATE TABLE IF NOT EXISTS users_projects(
+    id INT PRIMARY KEY COLLATE utf8mb4_bin,
+    uId VARCHAR(255) NOT NULL COLLATE utf8mb4_bin,
+    pId INT NOT NULL COLLATE utf8mb4_bin,
+    FOREIGN KEY (uId) REFERENCES users(uId),
+    FOREIGN KEY (pId) REFERENCES projects(pId)
+  )
+`;
+//--------------------------------------------------------------------------------
 
 const main = async () => {
   try {
-    console.log("start 0.2");
-    // Execute the query to create the database
-    const createDbConnection = await pool.promise().getConnection();
-    await executeQuery(createDbConnection, createDatabaseQuery);
-    console.log("Database created successfully");
-    createDbConnection.release();
-    console.log("end 0.2");
+    const connection = await pool.promise().getConnection();
 
-    console.log("start 0.3");
+    // Create the database
+    await executeQuery(connection, createDatabaseQuery);
+    //console.log("Database created successfully");
+
     // Use the created database
-    const useDbConnection = await pool.promise().getConnection();
-    await executeQuery(useDbConnection, useDatabaseQuery);
-    useDbConnection.release();
-    console.log("end 0.3");
+    await executeQuery(connection, useDatabaseQuery);
+    //console.log("Database selected successfully");
 
-    console.log("start 0.4");
-    // Execute the query to create the table
-    const createTableConnection = await pool.promise().getConnection();
-    await executeQuery(createTableConnection, createTableQuery);
-    createTableConnection.release();
-    console.log("end 0.4");
+    // Create the users table
+    await executeQuery(connection, createUsersTableQuery);
+    //console.log("Users table created successfully");
 
-    // console.log("start 0.5");
-    // //Insert values to the table
-    // const insertDataConnection = await pool.promise().getConnection();
-    // await executeQuery(insertDataConnection, insertDataQuery);
-    // insertDataConnection.release();
-    // console.log("stop 0.5");
+    // Create the projects table
+    await executeQuery(connection, createProjectsTableQuery);
+    //console.log("Projects table created successfully");
 
-    // console.log("start 0.6");
-    // //Display values of the table
-    // const selectDataConnection = await pool.promise().getConnection();
-    // const selectResults = await executeQuery(
-    //   selectDataConnection,
-    //   selectDataQuery
-    // );
-    // console.log("The data from users:", selectResults);
-    // selectDataConnection.release();
-    // console.log("stop 0.6");
+    // Create the tickets table
+    await executeQuery(connection, createTicketsTableQuery);
+    //console.log("Tickets table created successfully");
+
+    // Create the users-projects table
+    await executeQuery(connection, createUsersProjectsTableQuery);
+    //console.log("Users-Projects table created successfully");
+
+    console.log("Database and Tables are created");
+    connection.release();
   } catch (error) {
     console.error("Error:", error);
   } finally {
     // Close the connection pool
-    console.log("pool was supposed to end here");
     //pool.end();
   }
 };

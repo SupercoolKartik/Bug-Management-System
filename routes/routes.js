@@ -2,6 +2,7 @@ import express from "express";
 import fs from "fs/promises";
 import pool from "../pool.mjs";
 import ejs from "ejs";
+import { uid } from "uid";
 
 const router = express.Router();
 
@@ -11,13 +12,46 @@ router.get("/main", (req, res) => {
   res.render("main");
 });
 router.get("/", (req, res) => {
+  console.log(uid());
   res.render("login", { name: nm });
 });
 
 router.get("/signup", (req, res) => {
   res.render("signup", { err_mess: "" });
 });
+router.post("/afterSigningUp", (req, res) => {
+  if (req.body.setpassword != req.body.confirmpassword) {
+    res.render("signup", {
+      err_mess: "The password and confirm password fields must be identical.",
+    });
+    return;
+  }
+  const uId = uid();
+  const values = [
+    uId,
+    req.body.firstname,
+    req.body.lastname,
+    req.body.email,
+    req.body.phoneNo,
+    req.body.setpassword,
+  ];
+  let sql = `INSERT INTO users (uId,fName,lName,uEmail,uPhone,uPassword) VALUES(?,?,?,?,?,?)`;
 
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    connection.query(sql, values, (err, result) => {
+      if (err) {
+        res.send(err);
+      }
+    });
+    connection.query("SELECT fName,uId FROM users", (err, result) => {
+      if (err) throw err;
+      res.send(result);
+      // Release the connection back to the pool
+      connection.release();
+    });
+  });
+});
 router.get("/projects", (req, res) => {
   res.render("projects");
 });

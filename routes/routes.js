@@ -52,6 +52,16 @@ router.post("/afterSigningUp", (req, res) => {
     });
   });
 });
+router.get("/employees", (req, res) => {
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    connection.query("SELECT fName FROM users", (err, result) => {
+      if (err) throw err;
+      res.render("employees", { emp: result });
+      connection.release();
+    });
+  });
+});
 router.get("/projects", (req, res) => {
   res.render("projects");
 });

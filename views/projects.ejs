@@ -3,24 +3,74 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Project Management</title>
     <style>
       body {
-        background: #7ccadd;
-      }
-      .projects {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
         display: flex;
-        background-color: aqua;
         align-items: center;
         justify-content: center;
-        margin: 40px 400px 0px 400px;
+        height: 100vh;
       }
-      /* .proj_name {
+
+      .projects {
+        text-align: center;
+        margin-top: 50px;
+      }
+
+      .manage_proj {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        width: 320px;
+      }
+
+      .manage_proj h1 {
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      .proj-actions {
         display: flex;
-        align-items: center;
-      } */
-      .data {
-        display: block;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .proj-actions button {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        width: 100%; /* Set the width to 100% for full width */
+        transition: background-color 0.3s ease;
+      }
+
+      .proj-actions button:hover {
+        background-color: #45a049;
+      }
+
+      .proj_name {
+        text-align: left;
+      }
+
+      .proj_name p1 {
+        color: #333;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+      }
+
+      .proj_name p1:hover {
+        background-color: #f0f0f0;
       }
     </style>
   </head>
@@ -28,11 +78,15 @@
     <div class="projects">
       <div class="manage_proj">
         <h1>My Projects</h1>
-        <button type="button" onclick="">
-          <a href="./create_project">Create Project</a>
-        </button>
-        <button type="button" onclick="">Search</button>
-        <button type="button" onclick="">Sort</button>
+        <div class="proj-actions">
+          <button type="button">
+            <a
+              href="./create_project"
+              style="text-decoration: none; color: #fff"
+              >Create Project</a
+            >
+          </button>
+        </div>
         <div class="proj_name">
           <p1 class="data">Demo Data 1</p1>
           <p1 class="data">Demo Data 2</p1>

@@ -11,7 +11,29 @@ let nm = "Suraj";
 router.get("/", (req, res) => {
   res.render("login", { err_mess: "" });
 });
+router.post("/afterLogin", (req, res) => {
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    connection.query("SELECT uId,uPassword FROM users", (err, result) => {
+      if (err) throw err;
+      console.log(result);
 
+      //Authorisation Logic
+      result.forEach((e) => {
+        if (req.body.uId == e.uId) {
+          if (req.body.password == e.uPassword) {
+            res.render("main");
+            connection.release();
+            return;
+          }
+        }
+      });
+      res.render("login", { err_mess: "Invalid User ID or Password" });
+      connection.release();
+      return;
+    });
+  });
+});
 router.get("/main", (req, res) => {
   res.render("main");
 });

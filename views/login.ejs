@@ -3,50 +3,129 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>BUG MANAGEMENT SYSTEM</title>
     <style>
-        body{
-          background: #7ccadd;
-        }
-        .login {
-          display:flex ;
-          background-color: aqua;
-          align-items: center;
-          justify-content: center;
-          margin: 40px 400px 0px 400px;
-        }
-        .form{
-          margin: 3px;
-        }
-        .butt{
-          margin: 10px;
-        }
+      body {
+        background: #7ccadd;
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
 
+      .login {
+        display: flex;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        width: 320px;
+        padding: 20px;
+        margin: 40px;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .forms {
+        text-align: center;
+      }
+
+      h1 {
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      .form {
+        margin: 10px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+      }
+
+      input {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 100%;
+        margin-top: 5px;
+        box-sizing: border-box;
+      }
+
+      .butt {
+        margin-top: 20px;
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .butt:hover {
+        background-color: #45a049;
+      }
+
+      p {
+        margin-top: 15px;
+        color: #333;
+      }
+
+      a {
+        color: #2196f3;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .error-message {
+        color: #ff0000;
+        text-align: center;
+        margin-top: 10px;
+      }
     </style>
   </head>
   <body>
     <div class="login">
       <div class="forms">
-        <h1>LOGIN TO BMS</h1>
-        <div class="form">
-          <form action="/" method="post">
-          <label for="name">Username:</label>
-          <input type="text" id="name" autocomplete="off" name="name" required>
-        </div>
-        <br>
-        <div class="form">
-          <form action="/" method="post">       
-          <label for="password">Password:</label>
-          <input type="text" id="password" autocomplete="off" name="password" required>
-        <br>
-        </div>
-        <button class="butt" type="submit">Login</button>
+        <h1>BUG MANAGEMENT SYSTEM</h1>
+        <form action="/afterLogin" method="post">
+          <div class="form">
+            <label for="uId">User ID:</label>
+            <input
+              type="text"
+              id="uId"
+              autocomplete="off"
+              name="uId"
+              required
+            />
+          </div>
+          <div class="form">
+            <label for="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              autocomplete="off"
+              name="password"
+              required
+            />
+          </div>
+          <button class="butt" type="submit">Login</button>
+        </form>
+        <p class="error-message"><%= err_mess %></p>
         <p>Don't have an account? <a href="./signup">Sign Up</a></p>
-
-        <p><%=name%></p>
-        <br>
+        <br />
       </div>
-        
     </div>
   </body>
 </html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bug Management System</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f9f9f9;
+        text-align: center;
+        margin: 50px;
+      }
+
+      h1 {
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      p {
+        font-size: 18px;
+        color: #555;
+        margin-bottom: 10px;
+      }
+
+      button {
+        padding: 12px 24px;
+        font-size: 16px;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      .user-id {
+        font-size: 24px;
+        color: #333;
+        margin-top: 10px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome to Bug Management System</h1>
+    <p>Your User Id is</p>
+    <div class="user-id"><%= userId %></div>
+    <a href="./" style="text-decoration: none; color: #fff">
+      <button type="button">Login to Bug Management System</button>
+    </a>
+  </body>
+</html>

@@ -8,14 +8,13 @@ const router = express.Router();
 
 let nm = "Suraj";
 
+router.get("/", (req, res) => {
+  res.render("login", { err_mess: "" });
+});
+
 router.get("/main", (req, res) => {
   res.render("main");
 });
-router.get("/", (req, res) => {
-  console.log(uid());
-  res.render("login", { name: nm });
-});
-
 router.get("/signup", (req, res) => {
   res.render("signup", { err_mess: "" });
 });
@@ -46,7 +45,8 @@ router.post("/afterSigningUp", (req, res) => {
     });
     connection.query("SELECT fName,uId FROM users", (err, result) => {
       if (err) throw err;
-      res.send(result);
+
+      res.render("welcome", { userId: uId });
       // Release the connection back to the pool
       connection.release();
     });
@@ -65,15 +65,21 @@ router.get("/employees", (req, res) => {
 router.get("/projects", (req, res) => {
   res.render("projects");
 });
-
 router.get("/create_project", (req, res) => {
-  res.render("create_project");
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    connection.query("SELECT fName FROM users", (err, result) => {
+      if (err) throw err;
+      res.render("create_project", { employees: result });
+      connection.release();
+    });
+  });
 });
-
 router.get("/project", (req, res) => {
   res.render("project");
 });
 
+//------------------------------
 router.post("/", (req, res) => {
   // const abc = {
   //   name: req.body.name,
@@ -83,7 +89,7 @@ router.post("/", (req, res) => {
   nm = req.body.name + req.body.password;
   res.redirect("/");
 });
-
+//-----------------------------
 router.get("/dbData", (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;

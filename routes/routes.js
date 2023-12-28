@@ -90,46 +90,52 @@ router.get("/projects", (req, res) => {
 router.get("/create_project", (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
-    connection.query("SELECT fName FROM users", (err, result) => {
+    connection.query("SELECT uId,fName FROM users", (err, result) => {
       if (err) throw err;
       res.render("create_project", { employees: result });
       connection.release();
     });
   });
 });
+
+//-------------------------------------------------
+router.post("/afterProjectCreation", (req, res) => {
+  //const emp = req.body.selectedEmployees || [];
+  console.log(req.body);
+});
 router.get("/project", (req, res) => {
   res.render("project");
 });
-
 //------------------------------
-router.post("/", (req, res) => {
-  // const abc = {
-  //   name: req.body.name,
-  //   description: req.body.password,
-  // };
-  //res.render("home", req.body.name);
-  nm = req.body.name + req.body.password;
-  res.redirect("/");
-});
-//-----------------------------
-router.get("/dbData", (req, res) => {
-  pool.getConnection((err, connection) => {
-    if (err) throw err;
-    connection.query(
-      `INSERT INTO users01 (id, username, email) VALUES (1,"suraj","s@abc")`,
-      (err, result) => {
-        if (err) {
-          res.send(err);
-        }
-      }
-    );
-    connection.query("SELECT * FROM users01", (err, result) => {
-      if (err) throw err;
-      res.send(result);
-      // Release the connection back to the pool
-      connection.release();
-    });
-  });
-});
+
+// router.post("/", (req, res) => {
+//   // const abc = {
+//   //   name: req.body.name,
+//   //   description: req.body.password,
+//   // };
+//   //res.render("home", req.body.name);
+//   nm = req.body.name + req.body.password;
+//   res.redirect("/");
+// });
+// //-----------------------------
+// router.get("/dbData", (req, res) => {
+//   pool.getConnection((err, connection) => {
+//     if (err) throw err;
+//     connection.query(
+//       `INSERT INTO users01 (id, username, email) VALUES (1,"suraj","s@abc")`,
+//       (err, result) => {
+//         if (err) {
+//           res.send(err);
+//         }
+//       }
+//     );
+//     connection.query("SELECT * FROM users01", (err, result) => {
+//       if (err) throw err;
+//       res.send(result);
+//       // Release the connection back to the pool
+//       connection.release();
+//     });
+//   });
+// });
 
 export default router;

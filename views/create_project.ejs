@@ -3,58 +3,197 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Create a New Project</title>
     <style>
-        body{
-          background: #7ccadd;
-        }
-        .login {
-          display:flex ;
-          background-color: aqua;
-          align-items: center;
-          justify-content: center;
-          margin: 40px 400px 0px 400px;
-        }
-        .form{
-          margin: 3px;
-        }
-        .butt{
-          margin: 10px;
-        }
+      body {
+        background-color: #f7f7f7;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
 
+      .login {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 400px;
+        max-width: 100%;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .form {
+        margin-bottom: 20px;
+      }
+
+      label {
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #555;
+      }
+
+      input[type="text"] {
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+      }
+
+      .butt {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+      }
+
+      .butt:hover {
+        background-color: #45a049;
+      }
+
+      .dropdown-container {
+        position: relative;
+        margin-bottom: 20px;
+      }
+
+      .dropdown-btn {
+        background-color: #3498db;
+        color: #fff;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+      }
+
+      .dropdown-btn:hover {
+        background-color: #2980b9;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        padding: 10px;
+        z-index: 1;
+      }
+
+      .dropdown-container.open .dropdown-content {
+        display: block;
+        top: -170%;
+        /* Adjust as needed */
+      }
+
+      .employee-checkbox {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      .selected-employees {
+        margin-top: 15px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .selected-employee-item {
+        margin-bottom: 5px;
+        color: #555;
+      }
     </style>
   </head>
+
   <body>
     <div class="login">
-      <div class="forms">
-        <h1>Create a new Project</h1>
+      <h1>Create a New Project</h1>
+      <form action="/afterProjectCreation" method="post">
         <div class="form">
-          <form action="/" method="post">
-          <label for="name">Project Name:</label>
-          <input type="text" id="proj_name" autocomplete="off" name="proj_name" required>
-            
+          <label for="proj_name">Project Name:</label>
+          <input
+            type="text"
+            id="proj_name"
+            autocomplete="off"
+            name="proj_name"
+            required
+          />
         </div>
-        <br>
-        <p>Selected Employees</p>
-        <br>
-        <label for="emp">Select Employees:</label>
-        <select id="emp" name="employees">
-        <!-- Options within the dropdown -->
-        <option value="Emp 1">Volvo</option>
-        <option value="Emp 2">Saab</option>
-        <option value="Emp 3">Mercedes</option>
-        <option value="Emp 4">Audi</option>
-        </select>
-        <br>
-        <button class="proj_name" type="submit">Create Project</button>
+        <div class="form">
+          <label>Select Employees:</label>
+          <div class="dropdown-container">
+            <button onclick="toggleDropdown()" class="dropdown-btn">
+              Select Employees
+            </button>
+            <div id="dropdown" class="dropdown-content">
+              <% employees.forEach(function(employee) { %>
+              <label class="employee-checkbox">
+                <input
+                  type="checkbox"
+                  id="employee_<%= employee.uId %>"
+                  name="selectedEmployees"
+                  value="<%= employee.uId %>"
+                />
+                <%= employee.fName %>
+              </label>
+              <% }); %>
+            </div>
+          </div>
         </div>
-        
-
-  <!-- The select element defines the dropdown -->
-  
-        <br>
-      </div>
-        
+        <h3 class="selected-employees">Selected Employees</h3>
+        <div id="selected-employees" class="selected-employees"></div>
+        <hr />
+        <button class="butt" type="submit">Create Project</button>
+      </form>
     </div>
+
+    <script>
+      function toggleDropdown() {
+        var dropdownContainer = document.querySelector(".dropdown-container");
+        dropdownContainer.classList.toggle("open");
+
+        // Update selected employees display on toggle
+        showSelectedEmployee();
+      }
+
+      function showSelectedEmployee() {
+        var selectedEmployees = document.querySelectorAll(
+          "input[name='selectedEmployees']:checked"
+        );
+        var selectedEmployeesContainer =
+          document.getElementById("selected-employees");
+
+        selectedEmployeesContainer.innerHTML = ""; // Clear previous selections
+
+        selectedEmployees.forEach(function (checkbox) {
+          var selectedEmployeeItem = document.createElement("div");
+          selectedEmployeeItem.className = "selected-employee-item";
+          selectedEmployeeItem.innerText =
+            checkbox.parentNode.textContent.trim();
+          selectedEmployeesContainer.appendChild(selectedEmployeeItem);
+        });
+      }
+    </script>
   </body>
 </html>

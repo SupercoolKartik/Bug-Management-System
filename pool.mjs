@@ -20,7 +20,6 @@ const executeQuery = async (connection, query) => {
 };
 
 //----------------------------------Queries---------------------------------------
-
 const createDatabaseQuery = `CREATE DATABASE IF NOT EXISTS database01`;
 const useDatabaseQuery = `USE database01`;
 
@@ -36,10 +35,9 @@ const createUsersTableQuery = `
 const createProjectsTableQuery = `
   CREATE TABLE IF NOT EXISTS projects(
     pId INT PRIMARY KEY COLLATE utf8mb4_bin,
-    uId VARCHAR(255) NOT NULL COLLATE utf8mb4_bin,
     pName VARCHAR(255) NOT NULL,
-    pKey VARCHAR(255) NOT NULL,
-    FOREIGN KEY (uId) REFERENCES users(uId)
+    uIdCb VARCHAR(255) NOT NULL COLLATE utf8mb4_bin,
+    FOREIGN KEY (uIdCb) REFERENCES users(uId)
   )
 `;
 const createTicketsTableQuery = `
@@ -69,6 +67,9 @@ const createUsersProjectsTableQuery = `
 const main = async () => {
   try {
     const connection = await pool.promise().getConnection();
+
+    // Disable foreign key checks
+    await executeQuery(connection, disableForeignKeysQuery);
 
     // Create the database
     await executeQuery(connection, createDatabaseQuery);

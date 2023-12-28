@@ -68,9 +68,6 @@ const main = async () => {
   try {
     const connection = await pool.promise().getConnection();
 
-    // Disable foreign key checks
-    await executeQuery(connection, disableForeignKeysQuery);
-
     // Create the database
     await executeQuery(connection, createDatabaseQuery);
     //console.log("Database created successfully");

@@ -35,7 +35,7 @@ const createUsersTableQuery = `
 const createProjectsTableQuery = `
   CREATE TABLE IF NOT EXISTS projects(
     pId INT PRIMARY KEY COLLATE utf8mb4_bin,
-    pName VARCHAR(255) NOT NULL,
+    pName VARCHAR(255) NOT NULL COLLATE utf8mb4_bin,
     uIdCb VARCHAR(255) NOT NULL COLLATE utf8mb4_bin,
     FOREIGN KEY (uIdCb) REFERENCES users(uId)
   )
@@ -58,6 +58,7 @@ const createUsersProjectsTableQuery = `
     id INT PRIMARY KEY COLLATE utf8mb4_bin,
     uId VARCHAR(255) NOT NULL COLLATE utf8mb4_bin,
     pId INT NOT NULL COLLATE utf8mb4_bin,
+    pName VARCHAR(255) NOT NULL COLLATE utf8mb4_bin,
     FOREIGN KEY (uId) REFERENCES users(uId),
     FOREIGN KEY (pId) REFERENCES projects(pId)
   )

@@ -57,7 +57,7 @@
         margin-bottom: 10px;
       }
 
-      .butt {
+      .submit_button {
         background-color: #4caf50;
         color: #fff;
         padding: 12px 20px;
@@ -68,7 +68,7 @@
         transition: background-color 0.3s ease;
       }
 
-      .butt:hover {
+      .submit_button:hover {
         background-color: #45a049;
       }
 
@@ -164,7 +164,7 @@
         <h3 class="selected-employees">Selected Employees</h3>
         <div id="selected-employees" class="selected-employees"></div>
         <hr />
-        <button class="butt" type="submit">Create Project</button>
+        <button class="submit_button" type="submit">Create Project</button>
       </form>
     </div>
 
@@ -194,6 +194,19 @@
           selectedEmployeesContainer.appendChild(selectedEmployeeItem);
         });
       }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        // Add event listener to the form
+        var form = document.querySelector("form");
+        form.addEventListener("submit", function (event) {
+          // Check if the "Create Project" button triggered the submit event
+          var createProjectButton = document.querySelector(".submit_button");
+          if (event.submitter !== createProjectButton) {
+            // Prevent default form submission if not triggered by the "Create Project" button
+            event.preventDefault();
+          }
+        });
+      });
     </script>
   </body>
 </html>

@@ -26,6 +26,7 @@
         border-radius: 10px;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         width: 320px;
+        max-width: 100%; /* Adjusted for responsiveness */
       }
 
       .manage_proj h1 {
@@ -34,8 +35,6 @@
       }
 
       .proj-actions {
-        display: flex;
-        justify-content: space-between;
         margin-bottom: 20px;
       }
 
@@ -47,7 +46,7 @@
         border-radius: 5px;
         cursor: pointer;
         font-size: 14px;
-        width: 100%; /* Set the width to 100% for full width */
+        width: 100%;
         transition: background-color 0.3s ease;
       }
 
@@ -67,6 +66,7 @@
         margin-bottom: 10px;
         transition: background-color 0.3s ease;
         cursor: pointer;
+        display: inline-block; /* Added for proper inline display */
       }
 
       .proj_name p1:hover {
@@ -87,12 +87,11 @@
             >
           </button>
         </div>
+        <% projects.forEach(proj => { %>
         <div class="proj_name">
-          <p1 class="data">Demo Data 1</p1>
-          <p1 class="data">Demo Data 2</p1>
-          <p1 class="data">Demo Data 3</p1>
-          <p1 class="data">Demo Data 4</p1>
+          <p1><%= proj.pName %></p1>
         </div>
+        <% }); %>
       </div>
     </div>
   </body>

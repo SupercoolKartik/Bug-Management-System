@@ -8,6 +8,7 @@ const pool = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0,
   multipleStatements: true,
+  database: "database01",
 });
 
 const executeQuery = async (connection, query) => {
@@ -19,7 +20,7 @@ const executeQuery = async (connection, query) => {
   }
 };
 
-//----------------------------------Queries---------------------------------------
+//------------------------------Queries---------------------------------------
 const createDatabaseQuery = `CREATE DATABASE IF NOT EXISTS database01`;
 const useDatabaseQuery = `USE database01`;
 
@@ -34,7 +35,7 @@ const createUsersTableQuery = `
   )`;
 const createProjectsTableQuery = `
   CREATE TABLE IF NOT EXISTS projects(
-    pId INT PRIMARY KEY COLLATE utf8mb4_bin,
+    pId VARCHAR(225) PRIMARY KEY COLLATE utf8mb4_bin,
     pName VARCHAR(255) NOT NULL COLLATE utf8mb4_bin,
     uIdCb VARCHAR(255) NOT NULL COLLATE utf8mb4_bin,
     FOREIGN KEY (uIdCb) REFERENCES users(uId)
@@ -42,11 +43,10 @@ const createProjectsTableQuery = `
 `;
 const createTicketsTableQuery = `
   CREATE TABLE IF NOT EXISTS tickets(
-    tId INT PRIMARY KEY COLLATE utf8mb4_bin,
-    pId INT COLLATE utf8mb4_bin,
+    tId VARCHAR(225) PRIMARY KEY COLLATE utf8mb4_bin,
+    pId VARCHAR(225) COLLATE utf8mb4_bin,
     uIdCb VARCHAR(255) COLLATE utf8mb4_bin,
     uIdCf VARCHAR(255) COLLATE utf8mb4_bin,
-    tKey VARCHAR(255) NOT NULL,
     description VARCHAR(255) NULL,
     FOREIGN KEY (pId) REFERENCES projects(pId),
     FOREIGN KEY (uIdCb) REFERENCES users(uId),
@@ -55,19 +55,32 @@ const createTicketsTableQuery = `
 `;
 const createUsersProjectsTableQuery = `
   CREATE TABLE IF NOT EXISTS users_projects(
-    id INT PRIMARY KEY COLLATE utf8mb4_bin,
+    id VARCHAR(225) PRIMARY KEY COLLATE utf8mb4_bin,
     uId VARCHAR(255) NOT NULL COLLATE utf8mb4_bin,
-    pId INT NOT NULL COLLATE utf8mb4_bin,
+    pId VARCHAR(225) NOT NULL COLLATE utf8mb4_bin,
     pName VARCHAR(255) NOT NULL COLLATE utf8mb4_bin,
     FOREIGN KEY (uId) REFERENCES users(uId),
     FOREIGN KEY (pId) REFERENCES projects(pId)
   )
 `;
+
+//-------------Table Drop Queries------------------------------
+// const dropUsersTableQuery = `DROP TABLE IF EXISTS users`;
+// const dropProjectsTableQuery = `DROP TABLE IF EXISTS projects`;
+// const dropTicketsTableQuery = `DROP TABLE IF EXISTS tickets`;
+// const dropUsersProjectsTableQuery = `DROP TABLE IF EXISTS users_projects`;
+
+// const disableForeignKeysQuery = `SET FOREIGN_KEY_CHECKS = 0`;
+// const enableForeignKeysQuery = `SET FOREIGN_KEY_CHECKS = 1`;
+//------------------------------------------------------------
 //--------------------------------------------------------------------------------
 
 const main = async () => {
   try {
     const connection = await pool.promise().getConnection();
+
+    // // Disable foreign key checks
+    // await executeQuery(connection, disableForeignKeysQuery);
 
     // Create the database
     await executeQuery(connection, createDatabaseQuery);
@@ -76,6 +89,24 @@ const main = async () => {
     // Use the created database
     await executeQuery(connection, useDatabaseQuery);
     //console.log("Database selected successfully");
+
+    //-----------Table Drop Commands--------------------------------
+    // Drop users table
+    // await executeQuery(connection, dropUsersTableQuery);
+    // console.log("Users table deleted successfully");
+
+    // Drop projects table
+    // await executeQuery(connection, dropProjectsTableQuery);
+    // console.log("Projects table deleted successfully");
+
+    // // Drop tickets table
+    // await executeQuery(connection, dropTicketsTableQuery);
+    // console.log("Tickets table deleted successfully");
+
+    //Drop users_projects table
+    // await executeQuery(connection, dropUsersProjectsTableQuery);
+    // console.log("Users Projects table deleted successfully");
+    //---------------------------------------------------------------
 
     // Create the users table
     await executeQuery(connection, createUsersTableQuery);
@@ -92,6 +123,9 @@ const main = async () => {
     // Create the users-projects table
     await executeQuery(connection, createUsersProjectsTableQuery);
     //console.log("Users-Projects table created successfully");
+
+    // // Enable foreign key checks
+    // await executeQuery(connection, enableForeignKeysQuery);
 
     console.log("Database and Tables are created");
     connection.release();

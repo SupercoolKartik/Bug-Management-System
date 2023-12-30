@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TICKETS</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 20px;
+        background-color: #f5f5f5;
+        background-image: url("https://www.example.com/bugs.jpg"); /* Replace with the bugs image URL */
+        background-repeat: repeat; /* You can change 'repeat' to 'no-repeat' if you want a single watermark */
+        background-position: center;
+      }
+
+      h1 {
+        color: #333;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .ticket-section {
+        display: flex;
+        justify-content: space-around;
+        gap: 20px;
+      }
+
+      .ticket-category {
+        width: 45%;
+        text-align: center;
+      }
+
+      .list-container {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-top: 20px;
+      }
+
+      .employee-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .employee-item {
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .ticket-id {
+        font-weight: bold;
+        font-size: 18px;
+        margin-bottom: 5px;
+        color: #3498db;
+      }
+
+      .ticket-description {
+        color: #555;
+      }
+
+      button {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+        display: block;
+        margin: 20px auto;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>TICKETS</h1>
+    <div class="ticket-section">
+      <div class="ticket-category">
+        <h3>Created By You</h3>
+        <button type="button">
+          <a href="./selectProject" style="text-decoration: none; color: #fff"
+            >Create a New Ticket</a
+          >
+        </button>
+        <div class="list-container">
+          <ul class="employee-list">
+            <% tby.forEach(t => { %>
+            <li class="employee-item">
+              <p class="ticket-id">Ticket id: <%= t.tId %></p>
+              <p class="ticket-description"><%= t.description %></p>
+            </li>
+            <% }); %>
+          </ul>
+        </div>
+      </div>
+      <div class="ticket-category">
+        <h3>Created For You</h3>
+        <div class="list-container">
+          <ul class="employee-list">
+            <% tfy.forEach(t => { %>
+            <li class="employee-item">
+              <p class="ticket-id">Ticket id: <%= t.tId %></p>
+              <p class="ticket-description"><%= t.description %></p>
+            </li>
+            <% }); %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

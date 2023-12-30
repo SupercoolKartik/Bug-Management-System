@@ -5,14 +5,18 @@ import pool from "../pool.mjs";
 import ejs from "ejs";
 import { uid } from "uid";
 
-const getConnectionAsync = promisify(pool.getConnection).bind(pool);
-const queryAsync = promisify(pool.query).bind(pool);
+// const getConnectionAsync = promisify(pool.getConnection).bind(pool);
+// const queryAsync = promisify(pool.query).bind(pool);
 
 const router = express.Router();
 
 //User Id of currently logged in user
 let uIdCurr = "0e6ae53a364";
 
+router.get("/main", (req, res) => {
+  res.render("main");
+});
+//Users Related Routes
 router.get("/", (req, res) => {
   res.render("login", { err_mess: "" });
 });
@@ -42,9 +46,6 @@ router.post("/afterLogin", (req, res) => {
       return;
     });
   });
-});
-router.get("/main", (req, res) => {
-  res.render("main");
 });
 router.get("/signup", (req, res) => {
   res.render("signup", { err_mess: "" });
@@ -93,6 +94,8 @@ router.get("/employees", (req, res) => {
     });
   });
 });
+
+//Projects Related Routes
 router.get("/projects", (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
@@ -120,7 +123,6 @@ router.get("/create_project", (req, res) => {
     });
   });
 });
-
 router.post("/afterProjectCreation", (req, res) => {
   const emp = req.body.selectedEmployees || [];
   const project_name = req.body.proj_name || [];
@@ -182,9 +184,91 @@ router.post("/afterProjectCreation", (req, res) => {
     });
   });
 });
-
 router.get("/project", (req, res) => {
   res.render("project");
+});
+
+//Tickets Related Routes
+router.get("/tickets", (req, res) => {
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+
+    connection.query(
+      `SELECT tId, uIdCf, uIdCb, description FROM tickets WHERE uIdCb = ?`,
+      uIdCurr,
+      (err, resultCb) => {
+        if (err) throw err;
+
+        connection.query(
+          `SELECT tId, uIdCf, uIdCb, description FROM tickets WHERE uIdCf = ?`,
+          uIdCurr,
+          (err, resultCf) => {
+            if (err) throw err;
+
+            res.render("tickets", { tby: resultCb, tfy: resultCf });
+            connection.release();
+          }
+        );
+      }
+    );
+  });
+});
+router.get("/selectProject", (req, res) => {
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+
+    connection.query(
+      `SELECT pId, pName FROM users_projects WHERE uId = ?`,
+      uIdCurr,
+      (err, result) => {
+        if (err) throw err;
+
+        res.render("selectProjectForTc", { projects: result });
+        connection.release();
+      }
+    );
+  });
+});
+router.post("/create_ticket", (req, res) => {
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+
+    connection.query(
+      `SELECT uId FROM users_projects WHERE pId = ?`,
+      req.body.selectedProject,
+      (err, userIds) => {
+        if (err) throw err;
+
+        res.render("create_ticket", {
+          users: userIds,
+          projectValue: req.body.selectedProject,
+        });
+        connection.release();
+      }
+    );
+  });
+});
+router.post("/afterCreatingTicket", (req, res) => {
+  const tId = uid(5);
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    const values = [
+      tId,
+      req.body.project,
+      uIdCurr,
+      req.body.selectedUserId,
+      req.body.description,
+    ];
+    connection.query(
+      `INSERT INTO tickets (tId,pId,uIdCb,uIdCf,description) VALUES(?,?,?,?,?)`,
+      values,
+      (err, result) => {
+        if (err) throw err;
+        res.redirect("./tickets");
+        connection.release();
+      }
+    );
+  });
 });
 
 export default router;

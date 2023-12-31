@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ticket Details</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 40px;
+        background-color: #f4f4f4;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      .ticket-details {
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .ticket-details p {
+        margin-bottom: 10px;
+        color: #555;
+      }
+
+      .ticket-details strong {
+        font-weight: bold;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h1>Ticket Details</h1>
+      <div class="ticket-details">
+        <p><strong>Ticket ID:</strong> <%= ticketData.tId %></p>
+        <p>
+          <strong>Ticket Description:</strong> <%= ticketData.description %>
+        </p>
+        <p><strong>Project ID:</strong> <%= ticketData.pId %></p>
+        <p><strong>Created by:</strong> <%= ticketData.uIdCb %></p>
+        <p><strong>Created for:</strong> <%= ticketData.pId %></p>
+      </div>
+    </div>
+  </body>
+</html>

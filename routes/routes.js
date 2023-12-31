@@ -270,5 +270,21 @@ router.post("/afterCreatingTicket", (req, res) => {
     );
   });
 });
+router.get("/ticket", (req, res) => {
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+
+    connection.query(
+      `SELECT * FROM tickets WHERE tId = ?`,
+      req.query.tId,
+      (err, result) => {
+        if (err) throw err;
+
+        res.render("ticket", { ticketData: result[0] });
+        connection.release();
+      }
+    );
+  });
+});
 
 export default router;

@@ -27,6 +27,8 @@
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         width: 320px;
         max-width: 100%; /* Adjusted for responsiveness */
+        position: relative;
+        top: 0; /* Position fixed at the top */
       }
 
       .manage_proj h1 {
@@ -58,19 +60,22 @@
         text-align: left;
       }
 
-      .proj_name p1 {
+      /* Updates for sleeker list: */
+      .proj_name a {
+        text-decoration: none;
         color: #333;
         padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        margin-bottom: 10px;
-        transition: background-color 0.3s ease;
-        cursor: pointer;
-        display: inline-block; /* Added for proper inline display */
+        background-color: #f9f9f9; /* Lighter background for contrast */
+        margin-bottom: 10px; /* Space between project names */
+        border: none; /* Remove border for cleaner look */
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+        display: block; /* Ensure full width for the button effect */
+        transition: background-color 0.3s ease, transform 0.3s ease;
       }
 
-      .proj_name p1:hover {
-        background-color: #f0f0f0;
+      .proj_name a:hover {
+        background-color: #f0f0f0; /* Soft highlight on hover */
+        transform: translateY(-2px); /* Subtle lift on hover */
       }
     </style>
   </head>
@@ -89,7 +94,7 @@
         </div>
         <% projects.forEach(proj => { %>
         <div class="proj_name">
-          <p1><%= proj.pName %></p1>
+          <a href="./project?pId=<%= proj.pId %>"><%= proj.pName %></a>
         </div>
         <% }); %>
       </div>

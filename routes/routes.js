@@ -1,12 +1,8 @@
 import express from "express";
-import { promisify } from "util";
 import fs from "fs/promises";
 import pool from "../pool.mjs";
 import ejs from "ejs";
 import { uid } from "uid";
-
-// const getConnectionAsync = promisify(pool.getConnection).bind(pool);
-// const queryAsync = promisify(pool.query).bind(pool);
 
 const router = express.Router();
 
@@ -185,7 +181,41 @@ router.post("/afterProjectCreation", (req, res) => {
   });
 });
 router.get("/project", (req, res) => {
-  res.render("project");
+  console.log(req.query.pId);
+  pool.getConnection((err, connection) => {
+    if (err) {
+      res.status(500).send(err.message);
+      return;
+    }
+    const projectId = req.query.pId;
+    connection.query(
+      `SELECT pId,uIdCb,pName FROM projects WHERE pId = ?`,
+      projectId,
+      (err, resultP) => {
+        if (err) throw err;
+        connection.query(
+          `SELECT uId FROM users_projects WHERE pId = ?`,
+          projectId,
+          (err, resultU) => {
+            if (err) throw err;
+            connection.query(
+              `SELECT tId FROM tickets WHERE pId = ?`,
+              projectId,
+              (err, resultT) => {
+                if (err) throw err;
+                res.render("project", {
+                  projectData: resultP[0],
+                  usersData: resultU,
+                  ticketsData: resultT,
+                });
+                connection.release();
+              }
+            );
+          }
+        );
+      }
+    );
+  });
 });
 
 //Tickets Related Routes

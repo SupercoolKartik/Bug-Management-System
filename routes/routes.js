@@ -83,14 +83,31 @@ router.post("/afterSigningUp", (req, res) => {
 router.get("/employees", (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
-    connection.query("SELECT fName FROM users", (err, result) => {
+    connection.query("SELECT fName,uId FROM users", (err, result) => {
       if (err) throw err;
+      console.log(result);
       res.render("employees", { emp: result });
       connection.release();
     });
   });
 });
+router.get("/employee", (req, res) => {
+  console.log(req.query);
+  const userId = req.query.uId;
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    connection.query(
+      `SELECT * FROM users WHERE uId = ?`,
+      userId,
+      (err, result) => {
+        if (err) throw err;
 
+        res.render("employee", { usersData: result });
+        connection.release();
+      }
+    );
+  });
+});
 //Projects Related Routes
 router.get("/projects", (req, res) => {
   pool.getConnection((err, connection) => {

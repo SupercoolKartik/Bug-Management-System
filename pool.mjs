@@ -24,6 +24,15 @@ const executeQuery = async (connection, query) => {
 const createDatabaseQuery = `CREATE DATABASE IF NOT EXISTS database01`;
 const useDatabaseQuery = `USE database01`;
 
+const createCurrentUsersId = `CREATE TABLE IF NOT EXISTS usersId (
+  id VARCHAR(20) NULL COLLATE utf8mb4_bin,
+  flag VARCHAR(4) PRIMARY KEY COLLATE utf8mb4_bin
+)`;
+const insertFlagValue = `INSERT INTO usersId (flag)
+SELECT 'true'
+FROM dual
+WHERE NOT EXISTS (SELECT 1 FROM usersId LIMIT 1)`;
+
 const createUsersTableQuery = `
   CREATE TABLE IF NOT EXISTS users (
     uId VARCHAR(255) PRIMARY KEY COLLATE utf8mb4_bin,
@@ -69,7 +78,7 @@ const createUsersProjectsTableQuery = `
 // const dropProjectsTableQuery = `DROP TABLE IF EXISTS projects`;
 // const dropTicketsTableQuery = `DROP TABLE IF EXISTS tickets`;
 // const dropUsersProjectsTableQuery = `DROP TABLE IF EXISTS users_projects`;
-
+// const dropUsersIdTableQuery = `DROP TABLE IF EXISTS usersId`;
 // const disableForeignKeysQuery = `SET FOREIGN_KEY_CHECKS = 0`;
 // const enableForeignKeysQuery = `SET FOREIGN_KEY_CHECKS = 1`;
 //------------------------------------------------------------
@@ -106,21 +115,34 @@ const main = async () => {
     //Drop users_projects table
     // await executeQuery(connection, dropUsersProjectsTableQuery);
     // console.log("Users Projects table deleted successfully");
+
+    // //Drop usersId table
+    // await executeQuery(connection, dropUsersIdTableQuery);
+    // console.log("UsersId table deleted successfully");
+
     //---------------------------------------------------------------
 
-    // Create the users table
+    //await executeQuery(connection, dropUsersIdTableQuery);
+
+    // // Create User's Id table and Insert the Flag value
+    await executeQuery(connection, createCurrentUsersId);
+    //console.log("User's Id table created successfully");
+    await executeQuery(connection, insertFlagValue);
+    // console.log("Flag insertd");
+
+    // // Create the users table
     await executeQuery(connection, createUsersTableQuery);
     //console.log("Users table created successfully");
 
-    // Create the projects table
+    // // Create the projects table
     await executeQuery(connection, createProjectsTableQuery);
     //console.log("Projects table created successfully");
 
-    // Create the tickets table
+    // // Create the tickets table
     await executeQuery(connection, createTicketsTableQuery);
     //console.log("Tickets table created successfully");
 
-    // Create the users-projects table
+    // // Create the users-projects table
     await executeQuery(connection, createUsersProjectsTableQuery);
     //console.log("Users-Projects table created successfully");
 

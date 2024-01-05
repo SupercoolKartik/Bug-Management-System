@@ -9,8 +9,8 @@
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         margin: 20px;
         background-color: #f5f5f5;
-        background-image: url("https://www.example.com/bugs.jpg"); /* Replace with the bugs image URL */
-        background-repeat: repeat; /* You can change 'repeat' to 'no-repeat' if you want a single watermark */
+        background-image: url("https://www.example.com/bugs.jpg");
+        background-repeat: repeat;
         background-position: center;
       }
 
@@ -47,6 +47,11 @@
       .employee-item {
         padding: 15px;
         border-bottom: 1px solid #ddd;
+        cursor: pointer;
+      }
+
+      .employee-item:hover {
+        background-color: #f0f0f0;
       }
 
       .ticket-id {
@@ -91,7 +96,10 @@
         <div class="list-container">
           <ul class="employee-list">
             <% tby.forEach(t => { %>
-            <li class="employee-item">
+            <li
+              class="employee-item"
+              onclick="redirectToTicket('<%= t.tId %>')"
+            >
               <p class="ticket-id">Ticket id: <%= t.tId %></p>
               <p class="ticket-description"><%= t.description %></p>
             </li>
@@ -104,7 +112,10 @@
         <div class="list-container">
           <ul class="employee-list">
             <% tfy.forEach(t => { %>
-            <li class="employee-item">
+            <li
+              class="employee-item"
+              onclick="redirectToTicket('<%= t.tId %>')"
+            >
               <p class="ticket-id">Ticket id: <%= t.tId %></p>
               <p class="ticket-description"><%= t.description %></p>
             </li>
@@ -113,5 +124,11 @@
         </div>
       </div>
     </div>
+
+    <script>
+      function redirectToTicket(ticketId) {
+        window.location.href = "./ticket?tId=" + ticketId;
+      }
+    </script>
   </body>
 </html>
